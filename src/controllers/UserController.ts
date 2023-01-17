@@ -5,7 +5,7 @@ import { UserRespository } from '../respositories/UserRespository'
 import bcrypt from 'bcrypt'
 
 export class UserController {
-  public readonly SALT_ROUNDS = 30
+  public static SALT_ROUNDS = 13
 
   async create(request: Request, response: Response) {
     console.log('yo go herer', 'UsrController')
@@ -14,22 +14,21 @@ export class UserController {
 
     console.log('atemp´ting to find one by email')
 
-    console.log(UserRespository)
-
-    try {
-      await UserRespository.findOneBy({ email })
-    } catch (err) {
-      console.log(err)
-    }
     const userExists = await UserRespository.findOneBy({ email })
 
-    console.log(userExists)
-
-    if (userExists) {
+    if (!!userExists) {
       throw new BadRequestError('User already exists!')
     }
 
-    const hashedPassword = await bcrypt.hash(password, this.SALT_ROUNDS)
+    console.log(name, email, password)
+    const salt = await bcrypt.genSalt(UserController.SALT_ROUNDS)
+    console.log(salt)
+    const hashedPassword = await bcrypt.hash(
+      password,
+      UserController.SALT_ROUNDS
+    )
+
+    console.log(hashedPassword, 'hashedPassword')
 
     console.log('yo got herer', 'attempting to create user repo')
 
