@@ -39,8 +39,7 @@ public class AuthController {
     public ResponseEntity<Object> register(@Valid @RequestBody UserRequest userRequest) {
         User userFromRequest = User
                 .builder()
-                .firstName(userRequest.getFirstName())
-                .lastName(userRequest.getLastName())
+                .name(userRequest.getName())
                 .email(userRequest.getEmail())
                 .password(passwordEncoder.encode(userRequest.getPassword()))
                 .role(Role.ADMIN)

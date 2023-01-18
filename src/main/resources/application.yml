@@ -39,11 +39,10 @@ server:
       - application/json
         application/xml
     min-response-size: 2KB
-  servlet:
-    session:
-      timeout: 60
 
 app:
   config:
+    server:
+      maxSessionInterval: 60
     allowed:
       origin: ${ALLOWED_ORIGIN:http://localhost:4200}
